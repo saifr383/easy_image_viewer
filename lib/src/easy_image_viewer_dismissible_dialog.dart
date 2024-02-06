@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'easy_image_provider.dart';
 import 'easy_image_view_pager.dart';
-
-/// An internal widget that is used to hold a state to activate/deactivate the ability to
+import "dart:ui";
+import 'dart:math';/// An internal widget that is used to hold a state to activate/deactivate the ability to
 /// swipe-to-dismiss. This needs to be tied to the zoom scale of the current image, since
 /// the user needs to be able to pan around on a zoomed-in image without triggering the
 /// swipe-to-dismiss gesture.
@@ -95,6 +95,7 @@ class _EasyImageViewerDismissibleDialogState
             child: Stack(
                 clipBehavior: Clip.none,
                 alignment: Alignment.center,
+                
                 children: <Widget>[
                   EasyImageViewPager(
                       easyImageProvider: widget.imageProvider,
@@ -107,18 +108,26 @@ class _EasyImageViewerDismissibleDialogState
                               : DismissDirection.none;
                         });
                       }),
+
+
                   Positioned(
-                      top: 5,
-                      right: 5,
-                      child: IconButton(
-                        icon: const Icon(Icons.close),
-                        color: widget.closeButtonColor,
-                        tooltip: widget.closeButtonTooltip,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          _handleDismissal();
-                        },
-                      ))
+                    top: 10,
+                    right: 10,
+                    
+                    child:InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _handleDismissal();
+                      },
+                      child:  Container(padding: EdgeInsets.all(3),decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.withOpacity(0.6)
+
+                      ),
+                        child: const Icon(Icons.close,color: Colors.white,size: 20,),
+                      ),)
+                  )
+               
                 ])));
 
     if (widget.swipeDismissible) {
